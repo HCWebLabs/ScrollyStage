@@ -1,22 +1,31 @@
 /* =========================
-   HARD + DEEP SCOPE
+   HARD + DEEP SCOPE (mobile-first)
    ========================= */
-#scrollstage[data-scope="app"],
-#scrollstage[data-scope="app"] *{ box-sizing:border-box }
-
 :root{
   --bg:#0b0e14; --bg2:#111423;
   --ink:#e9eef7; --muted:#b9c2d6; --line:#22293b;
   --aqua:#53e2f5; --vio:#a56cff; --hot:#ff7ad9;
-  --rad:18px; --pad:clamp(16px,2.4vw,28px); --max:1120px; --gap:clamp(12px,2vw,20px);
+
+  --rad:18px;
+  --pad:clamp(16px,2.6vw,28px);
+  --max:1120px;
+  --gap:clamp(14px,2.4vw,22px);
+
+  /* scrollytelling spacing */
+  --section-y: clamp(64px, 12svh, 140px);
   color-scheme: dark;
 }
+
+*,
+*::before,
+*::after{ box-sizing:border-box }
 
 html,body{ height:100% }
 body{
   margin:0; background:radial-gradient(1200px 700px at 80% -10%, #3b2a6030, transparent 60%), var(--bg);
   color:var(--ink);
   font: 400 16px/1.6 "Mulish", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  scroll-behavior: smooth;
 }
 
 /* Velvet backdrop */
@@ -29,87 +38,123 @@ body::before{
   filter:saturate(110%) contrast(105%);
 }
 
-/* Mast */
-#scrollstage .mast{
-  position:sticky; top:0; z-index:10;
-  display:grid; grid-template-columns:1fr auto auto; gap:12px; align-items:center;
-  padding:12px var(--pad); border-bottom:1px solid var(--line);
-  backdrop-filter: blur(8px) saturate(120%); background:#0b0e14cc;
-}
-#scrollstage .brand{ display:flex; gap:10px; align-items:center; text-decoration:none; color:var(--ink) }
-#scrollstage .brand .fa-bolt{ color:var(--aqua) }
-#scrollstage .brand-name{
-  font-family:"Bakbak One", system-ui, sans-serif; font-weight:400; letter-spacing:.2px; font-size:18px;
-}
-#scrollstage nav{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end }
-#scrollstage nav a{
-  padding:8px 12px; border:1px solid #ffffff22; border-radius:999px; text-decoration:none; color:var(--ink);
-  background:#ffffff10;
-}
-#scrollstage .ghost{
-  justify-self:end; padding:8px 12px; border-radius:999px; border:1px solid #ffffff22; background:#ffffff12; color:var(--ink);
+/* =========================
+   PAGE GRID
+   mobile: 1 col (TOC collapsed)
+   ≥ 1140px: 2 cols (TOC rail + content)
+   ========================= */
+.page{
+  display:grid;
+  grid-template-columns: 1fr;        /* mobile-first */
+  align-items:start;
 }
 
-/* Sticky Chapter Index (TOC) */
-#scrollstage .toc{
+/* Left rail TOC */
+.toc{
   position: sticky;
-  top: calc(64px + 14px);
+  top: 12px;
   z-index: 5;
-  max-width: 220px;
-  margin: 18px auto 0;
-  padding: 12px;
+  margin: 12px var(--pad);
   border: 1px solid #ffffff1a;
   background: #0e1220cc;
   backdrop-filter: blur(4px) saturate(115%);
   border-radius: 14px;
   box-shadow: 0 10px 30px #0008;
-}
-#scrollstage .toc ol{ list-style: none; margin: 0; padding: 0; display: grid; gap: 6px }
-#scrollstage .toc a{
-  display: grid; grid-template-columns: 1.2em 1fr; align-items: center; gap: 8px;
-  padding: 8px 10px; text-decoration: none; color: var(--ink);
-  border-radius: 10px; border: 1px solid transparent; background: #ffffff0a;
-  font: 700 14px/1.2 "Mulish", system-ui;
-}
-#scrollstage .toc a::before{ content:"●"; font-size:10px; opacity:.6 }
-#scrollstage .toc a:hover{ background:#ffffff12; border-color:#ffffff1a }
-#scrollstage .toc a.is-active{
-  background: linear-gradient(135deg, var(--aqua), var(--vio));
-  color:#001; border-color:transparent;
-}
-#scrollstage .toc a.is-active::before{ opacity:1 }
-@media (min-width: 1120px){
-  #scrollstage .toc{ margin-left: calc((100vw - var(--max)) / 2) }
-}
-@media (max-width: 980px){
-  #scrollstage .toc{ display:none }
+  padding: 10px;
 }
 
-/* Panels */
-#scrollstage .panel{ max-width:var(--max); margin:0 auto; padding:clamp(44px,10vw,110px) var(--pad); scroll-margin-top: 90px }
-#scrollstage .hero{ min-height:74svh; display:grid; grid-template-columns: 1.1fr .9fr; gap:var(--gap); align-items:center }
-@media (max-width:900px){
-  #scrollstage .hero{ grid-template-columns:1fr; }
+/* TOC collapses by default on mobile */
+.toc__toggle{
+  width:100%;
+  display:flex; align-items:center; gap:8px;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid #ffffff1a;
+  background:#ffffff0c; color:var(--ink);
+  font:700 14px/1 "Mulish", system-ui;
+}
+.toc ol{ list-style:none; margin:10px 0 0 0; padding:0; display:grid; gap:6px }
+.toc a{
+  display:grid; grid-template-columns:1.2em 1fr; align-items:center; gap:8px;
+  padding:8px 10px; text-decoration:none; color:var(--ink);
+  border-radius:10px; border:1px solid transparent; background:#ffffff0a;
+  font:700 14px/1.2 "Mulish", system-ui;
+}
+.toc a::before{ content:"●"; font-size:10px; opacity:.6 }
+.toc a:hover{ background:#ffffff12; border-color:#ffffff1a }
+.toc a.is-active{ background:linear-gradient(135deg, var(--aqua), var(--vio)); color:#001 }
+.toc a.is-active::before{ opacity:1 }
+
+/* CONTENT COLUMN */
+#scrollstage{ max-width:var(--max); width:100%; margin:0 auto }
+
+/* Desktop: two columns */
+@media (min-width:1140px){
+  .page{
+    grid-template-columns: minmax(210px, 260px) minmax(0,1fr);
+    column-gap: clamp(18px, 3vw, 36px);
+    width: 100%;
+  }
+  .toc{
+    margin: var(--pad) 0 0 calc((100vw - (min(var(--max), 100vw) + minmax(210px, 260px))) / 2);
+    /* the left margin above is safe-ish, but we’ll just pin it near the edge via grid */
+    margin: var(--pad);
+  }
+  .toc__toggle{ display:none }   /* keep TOC always open on desktop */
+  .toc ol{ display:grid }
 }
 
-#scrollstage h1{
+/* Mast (inside content column) */
+.mast{
+  position:sticky; top:0; z-index:10;
+  display:grid; grid-template-columns:1fr auto auto; gap:12px; align-items:center;
+  padding:12px var(--pad); border-bottom:1px solid #22293b;
+  backdrop-filter: blur(8px) saturate(120%); background:#0b0e14cc;
+}
+.brand{ display:flex; gap:10px; align-items:center; text-decoration:none; color:var(--ink) }
+.brand .fa-bolt{ color:var(--aqua) }
+.brand-name{
+  font-family:"Bakbak One", system-ui, sans-serif; font-weight:400; letter-spacing:.2px; font-size:18px;
+}
+.mast nav{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end }
+.mast nav a{
+  padding:8px 12px; border:1px solid #ffffff22; border-radius:999px; text-decoration:none; color:var(--ink);
+  background:#ffffff10;
+}
+.ghost{
+  justify-self:end; padding:8px 12px; border-radius:999px; border:1px solid #ffffff22; background:#ffffff12; color:var(--ink);
+}
+
+/* Panels — MORE breathing room for scrollytelling */
+.panel{
+  padding: var(--section-y) var(--pad);
+  scroll-margin-top: 92px; /* avoid mast overlap on anchor nav */
+}
+.hero{
+  min-height:78svh;
+  display:grid; grid-template-columns: 1.1fr .9fr; gap:var(--gap); align-items:center
+}
+@media (max-width:900px){ .hero{ grid-template-columns:1fr } }
+
+h1{
   font-family:"Bakbak One", system-ui, sans-serif; font-weight:400;
   font-size: clamp(40px, 8vw, 72px); line-height:1.02; letter-spacing:.2px; margin:0 0 12px 0;
 }
-#scrollstage h2,
-#scrollstage h3{ font-family:"Mulish", system-ui; font-weight:800; line-height:1.2; margin:0 0 8px 0; letter-spacing:.2px }
-#scrollstage .lede{ color:var(--muted); margin:0 0 16px 0 }
+h2, h3{
+  font-family:"Mulish", system-ui; font-weight:800; line-height:1.2; margin:0 0 8px 0; letter-spacing:.2px
+}
+.lede{ color:var(--muted); margin:0 0 16px 0 }
 
-#scrollstage .cta-row{ display:flex; gap:12px; flex-wrap:wrap }
-#scrollstage .cta{
+.cta-row{ display:flex; gap:12px; flex-wrap:wrap }
+.cta{
   display:inline-flex; align-items:center; gap:8px; padding:12px 16px;
   background:linear-gradient(135deg, var(--aqua), var(--vio)); color:#001; font-weight:800; border:0; border-radius:999px; text-decoration:none;
   box-shadow:0 8px 30px #0008;
 }
-#scrollstage .cta.ghost{ background:#ffffff12; color:var(--ink); border:1px solid #ffffff22; font-weight:700 }
+.cta.ghost{ background:#ffffff12; color:var(--ink); border:1px solid #ffffff22; font-weight:700 }
 
-#scrollstage .hero__art{ position:relative; min-height:340px }
-#scrollstage .blob{
+.hero__art{ position:relative; min-height:360px }
+.blob{
   position:absolute; inset:-10% -20% -30% -10%;
   background:
     radial-gradient(40% 35% at 30% 30%, #53e2f540, transparent 70%),
@@ -119,48 +164,48 @@ body::before{
   border-radius:50%;
 }
 
-/* Band / cards */
-#scrollstage .band .kicker{ color:var(--muted); margin-bottom:16px }
-#scrollstage .cards{ display:grid; gap:var(--gap); grid-template-columns:repeat(12, minmax(0,1fr)) }
-#scrollstage .cards .card{
+/* Chapter 1 cards */
+.band .kicker{ color:var(--muted); margin-bottom:16px }
+.cards{ display:grid; gap:var(--gap); grid-template-columns:repeat(12, minmax(0,1fr)) }
+.cards .card{
   grid-column: span 12;
   background:#0e1220cc; border:1px solid #ffffff20; border-radius:var(--rad);
   padding:var(--pad); backdrop-filter: blur(4px) saturate(115%); box-shadow:0 10px 30px #0008;
 }
-@media (min-width:768px){ #scrollstage .cards .card{ grid-column: span 4 }}
+@media (min-width:768px){ .cards .card{ grid-column: span 4 }}
 
 /* Chapter 2 wipe */
-#scrollstage .wipe{ display:grid; grid-template-columns: 1fr 1.2fr; gap:var(--gap); align-items:center }
-@media (max-width:900px){ #scrollstage .wipe{ grid-template-columns:1fr } }
-#scrollstage .wipe__stage{ position:relative; border-radius:var(--rad); overflow:hidden; border:1px solid #ffffff22 }
-#scrollstage .wipe__stage img{ display:block; width:100%; height:auto; will-change: clip-path; }
-#scrollstage .wipe__stage figcaption{ color:var(--muted); font-size:14px; padding:10px 12px; background:#0b0e1490; border-top:1px solid #ffffff11 }
+.wipe{ display:grid; grid-template-columns: 1fr 1.2fr; gap:var(--gap); align-items:center }
+@media (max-width:900px){ .wipe{ grid-template-columns:1fr } }
+.wipe__stage{ position:relative; border-radius:var(--rad); overflow:hidden; border:1px solid #ffffff22 }
+.wipe__stage img{ display:block; width:100%; height:auto; will-change: clip-path; }
+.wipe__stage figcaption{ color:var(--muted); font-size:14px; padding:10px 12px; background:#0b0e1490; border-top:1px solid #ffffff11 }
 
 /* Chapter 3 parallax */
-#scrollstage .parallax{ min-height:90svh }
-#scrollstage .para__stage{
-  position:relative; height:70svh; border-radius:var(--rad);
+.parallax{ min-height:96svh }
+.para__stage{
+  position:relative; height:74svh; border-radius:var(--rad);
   overflow:hidden; border:1px solid #ffffff22; margin-top:24px;
 }
-#scrollstage .layer{
+.layer{
   position:absolute; inset:-12%;
   will-change: transform;
   background: radial-gradient(50% 50% at 50% 50%, #ffffff0a, #0000 60%);
 }
-#scrollstage .layer.back{ background: radial-gradient(60% 60% at 20% 80%, #4ed7ff33, transparent 60%) }
-#scrollstage .layer.mid{  background: radial-gradient(60% 60% at 80% 20%, #a56cff33, transparent 60%); mix-blend-mode:screen }
-#scrollstage .layer.front{background: radial-gradient(50% 50% at 50% 50%, #ff7ad933, transparent 60%); mix-blend-mode:screen }
+.layer.back{ background: radial-gradient(60% 60% at 20% 80%, #4ed7ff33, transparent 60%) }
+.layer.mid{  background: radial-gradient(60% 60% at 80% 20%, #a56cff33, transparent 60%); mix-blend-mode:screen }
+.layer.front{background: radial-gradient(50% 50% at 50% 50%, #ff7ad933, transparent 60%); mix-blend-mode:screen }
 
 /* Outro */
-#scrollstage .outro .foot{ border-top:1px solid var(--line); margin-top:28px; padding-top:12px; color:var(--muted); font-size:14px }
+.outro .foot{ border-top:1px solid var(--line); margin-top:28px; padding-top:12px; color:var(--muted); font-size:14px }
 
 /* =========================================================
    SCROLL-DRIVEN ANIMATIONS (progressive enhancement)
    ========================================================= */
 @supports (animation-timeline: view()) {
 
-  /* 1) Card reveals (bigger offset & scale for clarity) */
-  #scrollstage .reveal{
+  /* 1) Card reveals (clearer offset/scale) */
+  .reveal{
     view-timeline-name: --reveal;
     view-timeline-axis: block;
     animation: fadeUp both;
@@ -168,21 +213,17 @@ body::before{
     animation-range: entry 10% cover 45%;
     opacity: 0; transform: translateY(56px) scale(.98);
   }
-  #scrollstage .reveal.delay-1{ animation-delay: 0.08s }
-  #scrollstage .reveal.delay-2{ animation-delay: 0.16s }
-
+  .reveal.delay-1{ animation-delay: 0.08s }
+  .reveal.delay-2{ animation-delay: 0.16s }
   @keyframes fadeUp{
     0%   { opacity:0; transform: translateY(56px) scale(.98) }
     60%  { opacity:1 }
     100% { opacity:1; transform: translateY(0) scale(1) }
   }
 
-  /* 2) Section-wide wipe (steeper diagonal & longer span) */
-  #scrollstage #chapter-2{
-    view-timeline-name: --chap2;
-    view-timeline-axis: block;
-  }
-  #scrollstage #chapter-2 .wipe__stage img{
+  /* 2) Section-wide wipe */
+  #chapter-2{ view-timeline-name: --chap2; view-timeline-axis: block }
+  #chapter-2 .wipe__stage img{
     animation: maskWipe both ease-out;
     animation-timeline: --chap2;
     animation-range: entry 0% cover 80%;
@@ -192,29 +233,26 @@ body::before{
     to { clip-path: polygon(0 0, 120% 0, 100% 100%, -20% 100%) }
   }
 
-  /* 3) Parallax via the section's view-timeline (more reliable) */
-  #scrollstage #chapter-3{
-    view-timeline-name: --pax;
-    view-timeline-axis: block;
-  }
-  #scrollstage .para__stage .back{
+  /* 3) Parallax via the section's view-timeline */
+  #chapter-3{ view-timeline-name: --pax; view-timeline-axis: block }
+  .para__stage .back{
     animation: driftBack linear both;
     animation-timeline: --pax;
     animation-range: entry 0% cover 100%;
   }
-  #scrollstage .para__stage .mid{
+  .para__stage .mid{
     animation: driftMid linear both;
     animation-timeline: --pax;
     animation-range: entry 0% cover 100%;
   }
-  #scrollstage .para__stage .front{
+  .para__stage .front{
     animation: driftFront linear both;
     animation-timeline: --pax;
     animation-range: entry 0% cover 100%;
   }
-  @keyframes driftBack  { from{ transform: translateY(10%) } to{ transform: translateY(-18%) } }
-  @keyframes driftMid   { from{ transform: translateY(14%) } to{ transform: translateY(-30%) } }
-  @keyframes driftFront { from{ transform: translateY(18%) } to{ transform: translateY(-44%) } }
+  @keyframes driftBack  { from{ transform: translateY(12%) } to{ transform: translateY(-20%) } }
+  @keyframes driftMid   { from{ transform: translateY(18%) } to{ transform: translateY(-34%) } }
+  @keyframes driftFront { from{ transform: translateY(24%) } to{ transform: translateY(-48%) } }
 }
 
 /* Reduced motion */
@@ -222,6 +260,6 @@ body::before{
   * { animation: none !important; transition: none !important }
 }
 
-/* Focus styles + smooth scroll + anchor offset so mast doesn’t cover headings */
-html{ scroll-behavior: smooth }
-#scrollstage a:focus-visible, #scrollstage button:focus-visible{ outline:2px solid var(--aqua); outline-offset:2px }
+/* Focus styles */
+a:focus-visible, button:focus-visible{ outline:2px solid var(--aqua); outline-offset:2px }
+
