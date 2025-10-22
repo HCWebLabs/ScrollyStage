@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ScrollStage — Native CSS Scroll Story</title>
+
+  <!-- Icons + Fonts -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- H1 display: Bakbak One; Body & subheads: Mulish (with 800) -->
+  <link href="https://fonts.googleapis.com/css2?family=Bakbak+One&family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <!-- =========================
+       HARD-SCOPED APP WRAPPER
+       ========================= -->
+  <main id="scrollstage" data-scope="app" aria-label="Scroll-driven story">
+    <header class="mast">
+      <a class="brand" href="#">
+        <i class="fa-solid fa-bolt"></i>
+        <span class="brand-name">ScrollStage</span>
+      </a>
+      <nav aria-label="Sections">
+        <a href="#intro">Intro</a>
+        <a href="#chapter-1">Motion</a>
+        <a href="#chapter-2">Reveal</a>
+        <a href="#chapter-3">Parallax</a>
+        <a href="#outro">Outro</a>
+      </nav>
+      <button id="toggle-theme" class="ghost" title="Toggle background vibe">
+        <i class="fa-solid fa-wand-magic-sparkles"></i> Theme
+      </button>
+    </header>
+
+    <!-- Hero / Intro -->
+    <section id="intro" class="panel hero" aria-labelledby="title">
+      <div class="hero__copy">
+        <h1 id="title">Native Scroll, No JS Timeline</h1>
+        <p class="lede">Scroll-driven animations with CSS <strong>view-timeline</strong> and <strong>scroll-timeline</strong>. Read first. Wow second.</p>
+        <div class="cta-row">
+          <a href="#chapter-1" class="cta"><i class="fa-solid fa-arrow-down"></i> Start</a>
+          <a href="#chapter-3" class="cta ghost">Skip ahead</a>
+        </div>
+      </div>
+      <div class="hero__art" aria-hidden="true">
+        <!-- decorative gradient blob -->
+        <div class="blob"></div>
+      </div>
+    </section>
+
+    <!-- Chapter 1: Fade/slide cards on entry using view-timeline -->
+    <section id="chapter-1" class="panel band" aria-label="Chapter 1">
+      <h2 class="kicker">Chapter 1 — Motion as meaning</h2>
+      <div class="cards">
+        <article class="card reveal">
+          <h3>Focus Progress</h3>
+          <p>Elements reveal as they enter the viewport, mapping motion to reading flow.</p>
+        </article>
+        <article class="card reveal delay-1">
+          <h3>Hierarchy</h3>
+          <p>Stronger elements animate earlier; secondary content follows with subtle offsets.</p>
+        </article>
+        <article class="card reveal delay-2">
+          <h3>Respect Choice</h3>
+          <p><code>prefers-reduced-motion</code> disables animations while keeping layout solid.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Chapter 2: Clip-path wipe tied to scroll progress of the section -->
+    <section id="chapter-2" class="panel wipe" aria-label="Chapter 2">
+      <div class="wipe__copy">
+        <h2>CSS Wipe Reveal</h2>
+        <p>Track the section’s own scroll progress to drive a <em>clip-path</em> wipe—no JavaScript.</p>
+      </div>
+      <figure class="wipe__stage">
+        <img src="https://images.unsplash.com/photo-1527443224154-c4f2a9b0f3d2?q=80&w=1400&auto=format&fit=crop" alt="Abstract neon waves">
+        <figcaption>View-timeline drives the diagonal wipe.</figcaption>
+      </figure>
+    </section>
+
+    <!-- Chapter 3: Parallax-ish layering via scroll-timeline -->
+    <section id="chapter-3" class="panel parallax" aria-label="Chapter 3">
+      <h2>Layered Depth</h2>
+      <p>Foreground and background move at different rates using separate scroll-timelines.</p>
+      <div class="para__stage" aria-hidden="true">
+        <div class="layer back"></div>
+        <div class="layer mid"></div>
+        <div class="layer front"></div>
+      </div>
+    </section>
+
+    <!-- Outro -->
+    <section id="outro" class="panel outro" aria-labelledby="thanks">
+      <h2 id="thanks">Thanks for scrolling 🎉</h2>
+      <p>Everything you saw was powered by native CSS scroll-driven animations. No JS timelines, just progressive enhancement.</p>
+      <div class="cta-row">
+        <a class="cta" href="#intro"><i class="fa-solid fa-arrow-up"></i> Back to top</a>
+      </div>
+      <footer class="foot" role="contentinfo">
+        <p>Built with <strong>Scroll-Driven Animations</strong> · <a target="_blank" rel="noreferrer noopener" href="https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timeline">Docs</a></p>
+      </footer>
+    </section>
+  </main>
+
+  <script src="./app.js" type="module"></script>
+</body>
+</html>
