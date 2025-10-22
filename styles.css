@@ -1,0 +1,187 @@
+/* =========================
+   HARD + DEEP SCOPE
+   ========================= */
+#scrollstage[data-scope="app"],
+#scrollstage[data-scope="app"] *{ box-sizing:border-box }
+
+:root{
+  --bg:#0b0e14; --bg2:#111423;
+  --ink:#e9eef7; --muted:#b9c2d6; --line:#22293b;
+  --aqua:#53e2f5; --vio:#a56cff; --hot:#ff7ad9;
+  --rad:18px; --pad:clamp(16px,2.4vw,28px); --max:1120px; --gap:clamp(12px,2vw,20px);
+  color-scheme: dark;
+}
+
+html,body{ height:100% }
+body{
+  margin:0; background:radial-gradient(1200px 700px at 80% -10%, #3b2a6030, transparent 60%), var(--bg);
+  color:var(--ink);
+  font: 400 16px/1.6 "Mulish", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+/* Velvet backdrop */
+body::before{
+  content:""; position:fixed; inset:-20vmax; z-index:-1; pointer-events:none;
+  background:
+    radial-gradient(60vmax 60vmax at 15% 10%, #4ed7ff20, transparent 60%),
+    radial-gradient(50vmax 50vmax at 85% 20%, #a56cff22, transparent 60%),
+    radial-gradient(70vmax 70vmax at 50% 100%, #ff7ad920, transparent 60%);
+  filter:saturate(110%) contrast(105%);
+}
+
+/* Mast */
+#scrollstage .mast{
+  position:sticky; top:0; z-index:10;
+  display:grid; grid-template-columns:1fr auto auto; gap:12px; align-items:center;
+  padding:12px var(--pad); border-bottom:1px solid var(--line);
+  backdrop-filter: blur(8px) saturate(120%); background:#0b0e14cc;
+}
+#scrollstage .brand{ display:flex; gap:10px; align-items:center; text-decoration:none; color:var(--ink) }
+#scrollstage .brand .fa-bolt{ color:var(--aqua) }
+#scrollstage .brand-name{
+  font-family:"Bakbak One", system-ui, sans-serif; font-weight:400; letter-spacing:.2px; font-size:18px;
+}
+#scrollstage nav{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end }
+#scrollstage nav a{
+  padding:8px 12px; border:1px solid #ffffff22; border-radius:999px; text-decoration:none; color:var(--ink);
+  background:#ffffff10;
+}
+#scrollstage .ghost{
+  justify-self:end; padding:8px 12px; border-radius:999px; border:1px solid #ffffff22; background:#ffffff12; color:var(--ink);
+}
+
+/* Panels */
+#scrollstage .panel{ max-width:var(--max); margin:0 auto; padding:clamp(36px,8vw,96px) var(--pad) }
+#scrollstage .hero{ min-height:70svh; display:grid; grid-template-columns: 1.1fr .9fr; gap:var(--gap); align-items:center }
+@media (max-width:900px){
+  #scrollstage .hero{ grid-template-columns:1fr; }
+}
+
+#scrollstage h1{
+  font-family:"Bakbak One", system-ui, sans-serif; font-weight:400;
+  font-size: clamp(36px, 7vw, 68px); line-height:1.02; letter-spacing:.2px; margin:0 0 12px 0;
+}
+#scrollstage h2,
+#scrollstage h3{ font-family:"Mulish", system-ui; font-weight:800; line-height:1.2; margin:0 0 8px 0; letter-spacing:.2px }
+#scrollstage .lede{ color:var(--muted); margin:0 0 16px 0 }
+
+#scrollstage .cta-row{ display:flex; gap:12px; flex-wrap:wrap }
+#scrollstage .cta{
+  display:inline-flex; align-items:center; gap:8px; padding:12px 16px;
+  background:linear-gradient(135deg, var(--aqua), var(--vio)); color:#001; font-weight:800; border:0; border-radius:999px; text-decoration:none;
+  box-shadow:0 8px 30px #0008;
+}
+#scrollstage .cta.ghost{ background:#ffffff12; color:var(--ink); border:1px solid #ffffff22; font-weight:700 }
+
+#scrollstage .hero__art{ position:relative; min-height:320px }
+#scrollstage .blob{
+  position:absolute; inset:-10% -20% -30% -10%;
+  background:
+    radial-gradient(40% 35% at 30% 30%, #53e2f520, transparent 70%),
+    radial-gradient(35% 35% at 70% 20%, #a56cff22, transparent 70%),
+    radial-gradient(60% 40% at 50% 90%, #ff7ad920, transparent 80%);
+  filter: blur(20px) saturate(120%);
+  border-radius:50%;
+}
+
+/* Band / cards */
+#scrollstage .band .kicker{ color:var(--muted); margin-bottom:16px }
+#scrollstage .cards{ display:grid; gap:var(--gap); grid-template-columns:repeat(12, minmax(0,1fr)) }
+#scrollstage .cards .card{
+  grid-column: span 12;
+  background:#0e1220cc; border:1px solid #ffffff20; border-radius:var(--rad);
+  padding:var(--pad); backdrop-filter: blur(4px) saturate(115%); box-shadow:0 10px 30px #0008;
+}
+@media (min-width:768px){ #scrollstage .cards .card{ grid-column: span 4 }}
+
+/* Chapter 2 wipe */
+#scrollstage .wipe{ display:grid; grid-template-columns: 1fr 1.2fr; gap:var(--gap); align-items:center }
+@media (max-width:900px){ #scrollstage .wipe{ grid-template-columns:1fr } }
+#scrollstage .wipe__stage{ position:relative; border-radius:var(--rad); overflow:hidden; border:1px solid #ffffff22 }
+#scrollstage .wipe__stage img{ display:block; width:100%; height:auto; }
+#scrollstage .wipe__stage figcaption{ color:var(--muted); font-size:14px; padding:10px 12px; background:#0b0e1490; border-top:1px solid #ffffff11 }
+
+/* Chapter 3 parallax */
+#scrollstage .parallax{ min-height:80svh }
+#scrollstage .para__stage{ position:relative; height:50svh; border-radius:var(--rad); overflow:hidden; border:1px solid #ffffff22; margin-top:18px }
+#scrollstage .layer{ position:absolute; inset:-10%; background: radial-gradient(50% 50% at 50% 50%, #ffffff08, #00000000 60%); }
+#scrollstage .layer.back{ background: radial-gradient(60% 60% at 20% 80%, #4ed7ff22, transparent 60%); }
+#scrollstage .layer.mid{ background: radial-gradient(60% 60% at 80% 20%, #a56cff22, transparent 60%); mix-blend-mode:screen }
+#scrollstage .layer.front{ background: radial-gradient(50% 50% at 50% 50%, #ff7ad920, transparent 60%); mix-blend-mode:screen }
+
+/* Outro */
+#scrollstage .outro .foot{ border-top:1px solid var(--line); margin-top:28px; padding-top:12px; color:var(--muted); font-size:14px }
+
+/* =========================================================
+   SCROLL-DRIVEN ANIMATIONS (progressive enhancement)
+   ========================================================= */
+
+@supports (animation-timeline: view()) {
+
+  /* 1) Card reveals (Chapter 1): each card has its own view timeline */
+  #scrollstage .reveal{
+    view-timeline-name: --reveal;
+    view-timeline-axis: block;
+    animation: fadeSlide both;
+    animation-timeline: --reveal;
+    animation-range: entry 15% cover 40%;
+    opacity: 0; transform: translateY(24px);
+  }
+  #scrollstage .reveal.delay-1{ animation-delay: 0.06s }
+  #scrollstage .reveal.delay-2{ animation-delay: 0.12s }
+
+  @keyframes fadeSlide{
+    from{ opacity:0; transform: translateY(24px) }
+    to  { opacity:1; transform: translateY(0) }
+  }
+
+  /* 2) Section-wide wipe (Chapter 2): drive clip-path by the section's view progress */
+  #scrollstage #chapter-2{
+    view-timeline-name: --chap2;
+    view-timeline-axis: block;
+  }
+  #scrollstage #chapter-2 .wipe__stage img{
+    animation: maskWipe both linear;
+    animation-timeline: --chap2;
+    animation-range: entry 0% cover 60%;
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); /* start hidden */
+  }
+  @keyframes maskWipe{
+    to{ clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%) }
+  }
+
+  /* 3) Parallax-ish: separate scroll-timeline for container; layers move at different rates */
+  #scrollstage .parallax{
+    scroll-timeline-name: --pax;
+    scroll-timeline-axis: block;
+    scroll-timeline-scope: --pax;
+  }
+  #scrollstage .para__stage .back{
+    animation: driftBack linear both;
+    animation-timeline: --pax;
+    animation-range: entry 0% exit 100%;
+  }
+  #scrollstage .para__stage .mid{
+    animation: driftMid linear both;
+    animation-timeline: --pax;
+    animation-range: entry 0% exit 100%;
+  }
+  #scrollstage .para__stage .front{
+    animation: driftFront linear both;
+    animation-timeline: --pax;
+    animation-range: entry 0% exit 100%;
+  }
+  @keyframes driftBack  { to{ transform: translateY(-12%) } }
+  @keyframes driftMid   { to{ transform: translateY(-22%) } }
+  @keyframes driftFront { to{ transform: translateY(-35%) } }
+}
+
+/* Reduced motion: keep everything static and snappy */
+@media (prefers-reduced-motion: reduce){
+  * { animation: none !important; transition: none !important }
+}
+
+/* Focus styles */
+#scrollstage a:focus-visible, #scrollstage button:focus-visible{
+  outline:2px solid var(--aqua); outline-offset:2px;
+}
