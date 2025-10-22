@@ -25,7 +25,6 @@ btn?.addEventListener('click', () => {
   const byId = new Map(tocLinks.map(a => [a.getAttribute('href').slice(1), a]));
 
   const io = new IntersectionObserver((entries) => {
-    // choose the most visible intersecting section
     let topMost = null;
     for (const e of entries){
       if (!e.isIntersecting) continue;
@@ -34,12 +33,11 @@ btn?.addEventListener('click', () => {
       }
     }
     if (!topMost) return;
-
     const id = topMost.target.id;
     tocLinks.forEach(a => a.classList.toggle('is-active', a === byId.get(id)));
   }, {
     root: null,
-    rootMargin: '0px 0px -45% 0px', // highlight when ~45% into viewport
+    rootMargin: '0px 0px -45% 0px',
     threshold: [0.25, 0.45, 0.75]
   });
 
